@@ -45,7 +45,7 @@ function Cart() {
 
       <ul className="mt-3 divide-y divide-stone-200 border-b border-t">
         {cart.map((item) => (
-          <CartItem item={item} key={item.key} />
+          <CartItem item={item} key={item.id} />
         ))}
       </ul>
 
@@ -54,6 +54,7 @@ function Cart() {
           Order pizzas
         </Button>
 
+        {/* dispatch disini digunakan untuk mengimport action clearCart pada cartSlice yang sudah di export */}
         <Button type={"secondary"} onClick={() => dispatch(clearCart())}>
           Clear Cart
         </Button>
