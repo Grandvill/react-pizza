@@ -1,3 +1,4 @@
+// MenuItem.jsx
 import { formatCurrency } from "../../utils/helpers";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, getCurrentQuantityById } from "../cart/cartSlice";
@@ -26,42 +27,51 @@ function MenuItem({ pizza }) {
   }
 
   return (
-    <li className="flex gap-4 py-2">
-      <img
-        src={imageUrl}
-        alt={name}
-        className={`h-24 ${soldOut ? "opacity-70 grayscale" : ""}`}
-      />
-      <div className="flex grow flex-col pt-0.5">
-        <p className="font-bold">{name}</p>
-        <p className="text-sm capitalize italic text-stone-500">
+    <li className="overflow-hidden bg-white shadow-md hover:shadow-xl">
+      <div className="w-full">
+        <img
+          src={imageUrl}
+          alt={name}
+          className={`h-48 w-full object-cover px-1.5 py-1.5 ${soldOut ? "opacity-70 grayscale" : ""}`}
+        />
+      </div>
+      <div className="p-6">
+        <h2 className="mb-1 text-xl font-semibold">{name}</h2>
+        <p className="mb-4 text-sm capitalize italic text-stone-500">
           {ingredients.join(", ")}
         </p>
-        <div className="mt-auto flex items-center justify-between">
-          {!soldOut ? (
-            <p className="text-sm text-sky-600">{formatCurrency(unitPrice)}</p>
-          ) : (
-            <p className="text-sm font-medium uppercase text-stone-500">
-              Sold out
+
+        {soldOut ? (
+          <p className="text-sm font-medium uppercase text-stone-500">
+            SOLD OUT
+          </p>
+        ) : (
+          <div className="space-y-4">
+            <p className="font-medium text-blue-500">
+              {formatCurrency(unitPrice)}
             </p>
-          )}
 
-          {isInCart && (
-            <div className="flex items-center gap-3 sm:gap-8">
-              <UpdateItemQuantity
-                pizzaId={id}
-                currentQuantity={curentQuantity}
-              />
-              <DeleteItem pizzaId={id} />
-            </div>
-          )}
-
-          {!soldOut && !isInCart && (
-            <Button disabled={soldOut} type={"small"} onClick={handleAddToCart}>
-              Add to Cart
-            </Button>
-          )}
-        </div>
+            {isInCart ? (
+              <div className="flex items-center gap-3">
+                <UpdateItemQuantity
+                  pizzaId={id}
+                  currentQuantity={curentQuantity}
+                />
+                <DeleteItem pizzaId={id} />
+              </div>
+            ) : (
+              <div className="flex justify-center gap-3">
+                <Button
+                  type="small"
+                  className="btn btn-primary btn-sm w-full rounded-md px-8 py-2"
+                  onClick={handleAddToCart}
+                >
+                  ADD TO CART
+                </Button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </li>
   );
